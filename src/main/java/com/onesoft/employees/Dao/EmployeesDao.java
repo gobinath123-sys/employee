@@ -74,4 +74,7 @@ public class EmployeesDao {
 		return empRepo.findAll();
 	}
 
+	public String getname(int id) {
+		return empRepo.getbyname(id);
+	}
 }

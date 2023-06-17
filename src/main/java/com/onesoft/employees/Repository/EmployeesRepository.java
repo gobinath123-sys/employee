@@ -1,6 +1,6 @@
 package com.onesoft.employees.Repository;
 
-import java.util.List;  
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -46,4 +46,7 @@ public interface EmployeesRepository extends JpaRepository<Employees, Integer> {
 
 	@Query(value = "select *from employees where salary", nativeQuery = true)
 	public List<Employees> getAllsalary();
+	
+	@Query(value ="select name from employees where id =?",nativeQuery=true)
+	public String getbyname(int id);
 }

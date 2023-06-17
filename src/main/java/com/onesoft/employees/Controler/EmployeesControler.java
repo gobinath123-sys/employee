@@ -1,13 +1,18 @@
 package com.onesoft.employees.Controler;
 
-import java.util.List;  
+import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.onesoft.employees.Entity.Employees;
 import com.onesoft.employees.Service.EmployeesService;
@@ -17,6 +22,7 @@ import com.onesoft.employees.Service.EmployeesService;
 public class EmployeesControler {
 	@Autowired
 	EmployeesService empSer;
+	RestTemplate rt;
 
 	@PostMapping(value = "/addemp")
 	public String addEmployees(@RequestBody List<Employees> e) {
@@ -25,11 +31,19 @@ public class EmployeesControler {
 
 	@GetMapping(value = "/getname/{name}")
 	public List<Employees> getEmpName(@PathVariable String name) {
+
 		return empSer.getEmpName(name);
 	}
-
+	public static Logger  log = Logger.getLogger(EmployeesControler.class);
 	@GetMapping(value = "/getsortasc")
 	public List<Employees> sortAsc() {
+		PropertyConfigurator.configure("loggpropertice");
+		log.info("successfully loggin");
+		log.info("Started successfully");
+		log.debug("no debug");
+		log.error("no error");
+		log.fatal("no fatal");
+		log.warn("no warning");
 		return empSer.sortAsc();
 	}
 
@@ -96,5 +110,17 @@ public class EmployeesControler {
 	public List<Employees>addAllemp(){
 		return empSer.addAllemp();
 	}
+	
+	@GetMapping(value="/getstr")
+	public String show() {
+		String url="http://localhost:8081/getstring";
+		ResponseEntity<String> t=rt.exchange(url,HttpMethod.GET,null,String.class);
+		String result=t.getBody();
+	
+	
+	return result;
+	}
+
+
 
 }
